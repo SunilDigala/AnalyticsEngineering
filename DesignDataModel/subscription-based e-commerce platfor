@@ -1,0 +1,49 @@
+"Design a data model for a subscription-based e-commerce platform. The platform has the following features:
+
+Users can subscribe to multiple plans, and each plan offers various product bundles.
+Users can pause, upgrade, or downgrade their subscriptions at any time.
+The system should track the history of subscription changes and the products delivered to users for compliance and analytics purposes.
+Include support for localized pricing (currency and region-specific taxes).
+Design the model to optimize reporting on user retention, revenue forecasting, and product usage trends.
+
+Answer By Sunil
+
+Players Involved:
+Users
+Plans
+Product Bundles
+exchange rates
+Tax rates
+
+
+Actions
+users subscribe plans and plans will be attached to product bundles
+
+User Actions History - Can pause, upgrade, downgrade
+
+
+Needed
+User retention
+revenue forecasting
+product usage trends
+calender table
+
+
+Tables:
+Users - user id, username, country
+Plans - plan id, plan name
+product bundles - bundle id, bundle name
+
+Transaction table
+userid, planid, bundleid, active from, active to, state (Pause,Active), cost , comment
+
+
+User Retention  --
+User retention Trend
+
+Revenue Forecasting --
+
+Product usage trends -
+
+
+Answer By Nidhi
