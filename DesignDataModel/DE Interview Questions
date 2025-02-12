@@ -1,0 +1,608 @@
+How you move data from on Prem to Cloud? 
+
+for example SQL Server to Azure SQL and discuss the possibilities with Self Hosted vs Auto Hosted Cloud  
+
+ 
+
+Moving data from on-premises to the cloud requires selecting the right approach based on data volume, frequency, security, and latency needs. Here are some common strategies: 
+
+1. Direct Data Transfer (Small to Medium Data Volumes) 
+
+AWS DataSync / Azure Data Box Gateway / GCP Transfer Appliance: Managed services for data migration. 
+
+SFTP / SCP / Rsync: Securely transfer files to cloud storage using protocols like SFTP. 
+
+REST APIs / SDKs: Upload data directly using cloud APIs (e.g., AWS S3 API, Azure Blob API). 
+
+Database Migration Service (DMS): AWS DMS, Azure DMS, and GCP DMS help migrate on-prem databases with minimal downtime. 
+
+2. Bulk Data Transfer (Large Data Volumes) 
+
+AWS Snowball / Azure Data Box / Google Transfer Appliance: Physical devices to transfer petabytes of data securely. 
+
+Parallel Uploads & Multipart Uploads: Chunk large files and upload in parallel to optimize performance. 
+
+3. Streaming & Real-Time Data Transfer 
+
+Apache Kafka / Confluent Cloud: Stream data from on-prem to cloud services like AWS MSK, Azure Event Hubs, or GCP Pub/Sub. 
+
+Apache NiFi: Automate and manage real-time data movement. 
+
+AWS Kinesis / Azure Stream Analytics / Google Dataflow: Process streaming data in real-time. 
+
+IoT Solutions (MQTT, WebSockets): For IoT-based data movement. 
+
+4. Hybrid Cloud Solutions (Continuous Sync) 
+
+AWS Storage Gateway / Azure File Sync / GCP Filestore: Extend on-prem storage to the cloud. 
+
+Cloud VPN / Direct Connect / ExpressRoute / Interconnect: Secure, high-speed network connections for continuous data sync. 
+
+5. ETL & Data Integration Tools 
+
+AWS Glue / Azure Data Factory / Google Dataflow: Cloud-native ETL tools for batch and real-time ingestion. 
+
+Fivetran / Talend / Informatica / Matillion: Third-party ETL tools that support hybrid architectures. 
+
+6. Database Replication & Migration 
+
+AWS DMS / Azure DMS / GCP DMS: Migrates databases with minimal downtime. 
+
+Oracle GoldenGate / SQL Server Replication / Debezium: Change Data Capture (CDC) for real-time database replication. 
+
+Choosing the Right Approach 
+
+Factor 
+
+Best Approach 
+
+Small files, ad-hoc transfer 
+
+SFTP, SCP, API, Cloud Storage Upload 
+
+Large datasets (TBs to PBs) 
+
+AWS Snowball, Azure Data Box, Transfer Appliance 
+
+Real-time data movement 
+
+Kafka, Kinesis, Event Hubs, NiFi 
+
+Continuous sync 
+
+Storage Gateway, Direct Connect, VPN 
+
+Database migration 
+
+AWS DMS, Azure DMS, GoldenGate, Debezium 
+
+ 
+
+ 
+
+How to Move Data from On-Prem to Cloud & Its Dependency on Self-Hosted vs. Auto-Hosted Cloud 
+
+1. Moving Data from On-Prem to Cloud 
+
+The approach depends on factors like data volume, latency, frequency, security, and cost. Here are common methods: 
+
+✅ Small to Medium Data Volumes 
+
+Direct Upload (SCP, SFTP, API, SDKs) → Push data to cloud storage (AWS S3, Azure Blob, GCS). 
+
+Database Migration Service (DMS) → Use AWS DMS, Azure DMS, or GCP DMS for database migration. 
+
+✅ Large Data Volumes (TBs to PBs) 
+
+Cloud Transfer Appliances → AWS Snowball, Azure Data Box, GCP Transfer Appliance. 
+
+Parallel / Multipart Uploads → Chunking large files and uploading in parallel. 
+
+✅ Real-Time / Streaming Data 
+
+Message Queues / Streaming Platforms → Kafka, AWS Kinesis, Azure Event Hubs, GCP Pub/Sub. 
+
+Apache NiFi → Continuous data ingestion pipelines. 
+
+✅ Hybrid Sync & Continuous Data Movement 
+
+Storage Gateways → AWS Storage Gateway, Azure File Sync, GCP Filestore. 
+
+Direct Connections → AWS Direct Connect, Azure ExpressRoute, GCP Interconnect. 
+
+✅ ETL & Data Integration 
+
+Cloud-Native ETL Tools → AWS Glue, Azure Data Factory, GCP Dataflow. 
+
+Third-Party Tools → Talend, Fivetran, Informatica, Matillion. 
+
+ 
+ 
+
+2. Impact of Self-Hosted vs. Auto-Hosted Cloud on Data Migration 
+
+Factor 
+
+Self-Hosted Cloud (VMs, Kubernetes, etc.) 
+
+Auto-Hosted Cloud (Managed Services) 
+
+Data Transfer Complexity 
+
+You handle network configurations, storage setup, and transfer optimizations. 
+
+Managed services handle networking, storage, and migration. 
+
+Scalability 
+
+Requires manual resource allocation and scaling. 
+
+Auto-scales based on workload. 
+
+Security & Compliance 
+
+You manage security, encryption, and access policies. 
+
+Provider handles encryption, access control, and compliance. 
+
+Latency & Performance 
+
+Dependent on infrastructure setup and tuning. 
+
+Optimized by cloud provider. 
+
+Cost 
+
+Can be cheaper but requires admin effort. 
+
+Pay-as-you-go, but may be costlier in the long run. 
+
+Key Considerations 
+
+Auto-Hosted Cloud (e.g., AWS RDS, Google BigQuery, Azure Synapse) is easier to migrate to because providers offer built-in migration tools. 
+
+Self-Hosted Cloud (e.g., running PostgreSQL on an EC2 instance) gives flexibility but requires manual migration and setup. 
+
+Conclusion 
+
+If you are moving to a managed service (Auto-Hosted Cloud), use DMS, cloud-native ETL tools, or direct file transfers for easy migration. 
+
+If you are moving to a Self-Hosted setup, you might need custom scripts, storage gateways, and manual configurations for data transfer. 
+
+ 
+
+   
+
+On Prem to On Prem? 
+
+  _> What is self hosted IR? 
+
+   
+
+How Do you Schedule the pipeline to run on the last day of the month? or the last working day of the month? what is the use of Tumbling Window Trigger and scheduled Window 
+
+Scheduling a Pipeline to Run on the Last Day or Last Working Day of the Month 
+
+You can schedule a pipeline to run on the last day of the month or the last working day of the month using various methods depending on the tool you are using (Airflow, Azure Data Factory, Apache NiFi, etc.). 
+
+ 
+ 
+
+1. Scheduling for the Last Day of the Month 
+
+Using CRON Expression 
+If the tool supports cron scheduling (e.g., Airflow, Azure Data Factory, Apache Airflow, etc.), use: 
+
+bash 
+
+CopyEdit 
+
+0 0 28-31 * * [ "$(date +\%d -d tomorrow)" == "01" ] && your_script.sh  
+
+This ensures the script only runs when the next day is the 1st of the next month. 
+
+Example Cron Schedules: 
+
+Airflow DAG Schedule: 0 0 28-31 * * (runs daily but only executes logic when tomorrow is the 1st) 
+
+Azure Data Factory CRON: 0 0 28-31 * * with an expression to check if it's the last day. 
+
+Apache NiFi: Use ExecuteScript or InvokeHTTP to check the last day before execution. 
+
+ 
+ 
+
+2. Scheduling for the Last Working Day of the Month 
+
+Using Python Logic in Airflow 
+
+python 
+
+CopyEdit 
+
+from datetime import datetime, timedelta import pandas as pd def is_last_working_day(execution_date): next_day = execution_date + timedelta(days=1) last_business_day = pd.date_range( execution_date.replace(day=1), execution_date, freq='BM' # Business Month End )[-1] return execution_date == last_business_day if is_last_working_day(datetime.today()): print("Run the pipeline")  
+
+Implementation in Airflow DAG: 
+
+python 
+
+CopyEdit 
+
+from airflow import DAG from airflow.operators.python import PythonOperator from datetime import datetime def check_and_run(): if is_last_working_day(datetime.today()): print("Pipeline running...") dag = DAG( "last_working_day_pipeline", schedule_interval="0 0 28-31 * *", start_date=datetime(2024, 1, 1), catchup=False, ) run_task = PythonOperator( task_id="run_if_last_working_day", python_callable=check_and_run, dag=dag, )  
+
+ 
+ 
+
+3. Tumbling Window vs. Scheduled Window in Streaming Pipelines 
+
+Trigger Type 
+
+Tumbling Window 
+
+Sliding Window 
+
+Definition 
+
+Fixed-size, non-overlapping time intervals. 
+
+Overlapping time intervals that slide over time. 
+
+Example Use Case 
+
+Batch processing every 1 hour, 1 day, etc. 
+
+Real-time analytics where data should not be missed. 
+
+Overlap 
+
+No overlap between windows. 
+
+Windows overlap, so some data may be included in multiple windows. 
+
+Best For 
+
+Aggregations (e.g., daily sales total). 
+
+Real-time alerting and anomaly detection. 
+
+Use Cases in Azure Data Factory or AWS Kinesis 
+
+Tumbling Window Trigger: Use when you want the pipeline to run exactly at a fixed time interval (e.g., last day of the month). 
+
+Sliding Window Trigger: Use when you want to process overlapping data chunks (e.g., last 24 hours of data every 6 hours). 
+
+ 
+ 
+
+Conclusion 
+
+Use CRON Jobs for scheduling based on date conditions. 
+
+Use Python logic in Airflow or SQL queries to determine the last working day. 
+
+Use Tumbling Windows for fixed interval batch jobs. 
+
+Use Sliding Windows for real-time overlapping data processing. 
+
+         
+
+Reading multi Line CSV file in Spark  
+
+        OptionMultiLine = 'True' 
+
+ 
+
+Reading Multi-Line CSV Files in Apache Spark 
+
+When dealing with multi-line CSV files (where a single record spans multiple lines), you need to enable the multiLine option while reading the file using Spark DataFrame API. 
+
+ 
+ 
+
+✅ Solution: Using multiLine option in Spark 
+
+python 
+
+from pyspark.sql import SparkSession 
+
+  
+
+# Initialize Spark session 
+
+spark = SparkSession.builder.appName("MultiLineCSV").getOrCreate() 
+
+  
+
+# Read the multi-line CSV file 
+
+df = spark.read.option("header", "true") \ 
+
+               .option("multiLine", "true") \ 
+
+               .option("quote", '"') \   # Handles quoted newlines properly 
+
+               .option("escape", "\\") \ # Escapes special characters 
+
+               .csv("path/to/your_file.csv") 
+
+  
+
+df.show(truncate=False) 
+
+ 
+
+ 
+
+ 
+ 
+
+📌 Key Options Explained 
+
+Option 
+
+Purpose 
+
+"header", "true" 
+
+Treats the first row as column names. 
+
+"multiLine", "true" 
+
+Allows Spark to read records that span multiple lines. 
+
+"quote", '"' 
+
+Ensures fields enclosed in double quotes are read correctly. 
+
+"escape", "\\" 
+
+Handles escape characters properly. 
+
+ 
+ 
+
+🚀 Example CSV File (multi-line record) 
+
+cs 
+
+CopyEdit 
+
+id,name,description 1,John Doe,"Software Engineer working on AI" 2,Jane Smith,"Data Scientist specializing in ML"  
+
+✅ Expected Output 
+
+pgsql 
+
+CopyEdit 
+
++---+-----------+----------------------------+ |id |name |description | +---+-----------+----------------------------+ |1 |John Doe |Software Engineer working on AI | |2 |Jane Smith |Data Scientist specializing in ML | +---+-----------+----------------------------+  
+
+ 
+ 
+
+⚠️ Common Issues & Fixes 
+
+Malformed records? → Use .option("mode", "DROPMALFORMED") or "PERMISSIVE". 
+
+Performance issues? → Multi-line parsing is slower; consider increasing partition size. 
+
+Quote issues? → Ensure proper double quotes (") wrapping text fields. 
+
+ 
+ 
+
+🔥 Performance Tip 
+
+If reading large CSV files, increase the executor memory and parallelism: 
+
+spark.conf.set("spark.sql.files.maxPartitionBytes", "128MB")  
+
+ 
+
+  
+
+Reading a complex Json in the Spark 
+
+[ 
+
+  { 
+
+    "id": 1, 
+
+    "name": "John Doe", 
+
+    "address": { 
+
+      "street": "123 Main St", 
+
+      "city": "New York", 
+
+      "zip": "10001" 
+
+    }, 
+
+    "orders": [ 
+
+      {"order_id": "A100", "amount": 250.75}, 
+
+      {"order_id": "A101", "amount": 499.99} 
+
+    ] 
+
+  }, 
+
+  { 
+
+    "id": 2, 
+
+    "name": "Jane Smith", 
+
+    "address": { 
+
+      "street": "456 Park Ave", 
+
+      "city": "San Francisco", 
+
+      "zip": "94105" 
+
+    }, 
+
+    "orders": [ 
+
+      {"order_id": "B200", "amount": 120.00}, 
+
+      {"order_id": "B201", "amount": 300.50} 
+
+    ] 
+
+  } 
+
+] 
+
+from pyspark.sql import SparkSession 
+
+  
+
+# Initialize Spark Session 
+
+spark = SparkSession.builder.appName("ComplexJson").getOrCreate() 
+
+  
+
+# Read the JSON file 
+
+df = spark.read.option("multiline", "true").json("path/to/complex.json") 
+
+  
+
+# Print Schema 
+
+df.printSchema() 
+
+df.show(truncate=False) 
+
+ 
+
+🛠️ Output Schema 
+
+objectivec 
+
+CopyEdit 
+
+root |-- address: struct (nullable = true) | |-- city: string (nullable = true) | |-- street: string (nullable = true) | |-- zip: string (nullable = true) |-- id: long (nullable = true) |-- name: string (nullable = true) |-- orders: array (nullable = true) | |-- element: struct (containsNull = true) | | |-- amount: double (nullable = true) | | |-- order_id: string (nullable = true)  
+
+ 
+ 
+
+3️⃣ Flatten Nested JSON Columns 
+
+Since Spark reads nested fields as struct and arrays, we need to flatten the data. 
+
+from pyspark.sql.functions import col, explode 
+
+  
+
+# Flatten Nested Structure 
+
+df_flat = df.select( 
+
+    col("id"), 
+
+    col("name"), 
+
+    col("address.city").alias("city"), 
+
+    col("address.street").alias("street"), 
+
+    col("address.zip").alias("zip"), 
+
+    explode(col("orders")).alias("order") 
+
+).select( 
+
+    col("id"), 
+
+    col("name"), 
+
+    col("city"), 
+
+    col("street"), 
+
+    col("zip"), 
+
+    col("order.order_id").alias("order_id"), 
+
+    col("order.amount").alias("amount") 
+
+) 
+
+  
+
+df_flat.show(truncate=False) 
+
+ 
+ 
+
+4️⃣ Handling More Complex JSON Scenarios 
+
+Scenario 
+
+Solution 
+
+Deeply Nested Fields 
+
+Use col("field.subfield") to extract. 
+
+Arrays Inside Arrays 
+
+Use explode() multiple times. 
+
+JSON with Dynamic Schema 
+
+Use inferSchema=True or from_json() for custom parsing. 
+
+Handling Missing Fields 
+
+Use df.fillna("default_value"). 
+
+ 
+ 
+
+5️⃣ Bonus: Writing Data Back to JSON 
+
+python 
+
+CopyEdit 
+
+df_flat.write.mode("overwrite").json("path/to/output.json")  
+
+ 
+ 
+
+🔥 Performance Tips 
+
+Increase partition size for large JSON files: 
+
+python 
+
+CopyEdit 
+
+spark.conf.set("spark.sql.files.maxPartitionBytes", "128MB")  
+
+Use from_json() for schema enforcement in streaming data. 
+
+If JSON has varying structures, use schema_of_json(). 
+
+ 
+ 
+
+🚀 Summary 
+
+✔ Use spark.read.json("path") with multiline=True 
+✔ Flatten nested structures using col() and explode() 
+✔ Handle deeply nested arrays and missing fields 
+✔ Optimize with proper partitioning for large JSON files 
+
+ 
+
+ 
